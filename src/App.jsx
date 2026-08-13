@@ -7,6 +7,7 @@ import ComparisonDrawer from './components/ComparisonDrawer';
 import ProgressStepper from './components/ProgressStepper';
 import SeatMap from './components/SeatMap';
 import PassengerForm from './components/PassengerForm';
+import BookingSummary from './components/BookingSummary';
 import { MOCK_FLIGHTS } from './data/mockFlights';
 import { Plane, Sparkles, ShieldCheck, Clock, Award } from 'lucide-react';
 
@@ -19,6 +20,7 @@ export default function App() {
   const [passengersDetails, setPassengersDetails] = useState([]);
   const [comparedFlights, setComparedFlights] = useState([]);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
+  const [confirmedBookingData, setConfirmedBookingData] = useState(null);
   const [savedBookings, setSavedBookings] = useState([]);
 
   const handleSearchSubmit = (params) => {
@@ -50,8 +52,13 @@ export default function App() {
 
   const handlePassengerSubmit = (details) => {
     setPassengersDetails(details);
-    console.log('Passengers saved:', details);
-    // Booking review will be connected in Phase 08
+    setViewState('review');
+  };
+
+  const handleConfirmBooking = (bookingData) => {
+    console.log('Booking confirmed:', bookingData);
+    setConfirmedBookingData(bookingData);
+    // Confirmation screen & localStorage will be hooked in Phase 09
   };
 
   const passengerCount = (searchParams?.passengers?.adults || 1) + (searchParams?.passengers?.children || 0);
@@ -174,6 +181,18 @@ export default function App() {
               initialData={passengersDetails}
               onBack={() => setViewState('seat')}
               onContinue={handlePassengerSubmit}
+            />
+          )}
+
+          {/* BOOKING REVIEW & DYNAMIC SUMMARY VIEW */}
+          {activeTab === 'search' && viewState === 'review' && selectedFlight && (
+            <BookingSummary
+              flight={selectedFlight}
+              searchParams={searchParams}
+              selectedSeats={selectedSeats}
+              passengersDetails={passengersDetails}
+              onBack={() => setViewState('passenger')}
+              onConfirmBooking={handleConfirmBooking}
             />
           )}
 
