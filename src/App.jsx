@@ -3,8 +3,9 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import SearchPanel from './components/SearchPanel';
 import FlightResults from './components/FlightResults';
+import ComparisonDrawer from './components/ComparisonDrawer';
 import { MOCK_FLIGHTS } from './data/mockFlights';
-import { Plane, Sparkles, ShieldCheck, Clock, Award, ArrowRight } from 'lucide-react';
+import { Plane, Sparkles, ShieldCheck, Clock, Award } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('search');
@@ -12,6 +13,7 @@ export default function App() {
   const [searchParams, setSearchParams] = useState(null);
   const [selectedFlight, setSelectedFlight] = useState(null);
   const [comparedFlights, setComparedFlights] = useState([]);
+  const [isComparisonOpen, setIsComparisonOpen] = useState(false);
   const [savedBookings, setSavedBookings] = useState([]);
 
   const handleSearchSubmit = (params) => {
@@ -27,14 +29,18 @@ export default function App() {
         alert('You can compare a maximum of 4 flights at once.');
         return;
       }
-      setComparedFlights([...comparedFlights, flight]);
+      const updated = [...comparedFlights, flight];
+      setComparedFlights(updated);
+      if (updated.length >= 2) {
+        setIsComparisonOpen(true);
+      }
     }
   };
 
   const handleSelectFlight = (flight) => {
     setSelectedFlight(flight);
     console.log('Flight selected:', flight);
-    // Seat selection will be hooked up in Phase 06
+    // Seat map selection will be connected in Phase 06
   };
 
   return (
@@ -120,7 +126,7 @@ export default function App() {
               onModifySearch={() => setViewState('search')}
               comparedFlights={comparedFlights}
               onToggleCompare={handleToggleCompare}
-              onOpenComparison={() => {}}
+              onOpenComparison={() => setIsComparisonOpen(true)}
             />
           )}
 
@@ -136,6 +142,15 @@ export default function App() {
           )}
 
         </main>
+
+        {/* Fare Comparison Drawer */}
+        <ComparisonDrawer
+          isOpen={isComparisonOpen}
+          onClose={() => setIsComparisonOpen(false)}
+          comparedFlights={comparedFlights}
+          onRemoveCompare={(id) => setComparedFlights(comparedFlights.filter(f => f.id !== id))}
+          onSelectFlight={handleSelectFlight}
+        />
 
         <Footer />
       </div>
