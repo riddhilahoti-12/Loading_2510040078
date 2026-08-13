@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import MobileBottomNav from './components/MobileBottomNav';
+import CursorGlow from './components/CursorGlow';
 import SearchPanel from './components/SearchPanel';
 import FlightResults from './components/FlightResults';
 import ComparisonDrawer from './components/ComparisonDrawer';
@@ -94,7 +95,10 @@ export default function App() {
   const passengerCount = (searchParams?.passengers?.adults || 1) + (searchParams?.passengers?.children || 0);
 
   return (
-    <div className="min-h-screen flex flex-col justify-between text-slate-100 bg-[#040811] relative selection:bg-sky-500 selection:text-white">
+    <div className="min-h-screen flex flex-col justify-between text-slate-100 bg-[#040811] relative selection:bg-sky-500 selection:text-white overflow-x-hidden">
+      {/* Interactive Cursor Glow Spotlight */}
+      <CursorGlow />
+
       {/* Background Atmosphere */}
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-gradient-to-b from-sky-600/15 via-blue-900/10 to-transparent blur-[140px] pointer-events-none z-0" />
       <div className="fixed bottom-0 right-0 w-[700px] h-[700px] bg-blue-600/5 blur-[160px] pointer-events-none z-0" />
@@ -130,7 +134,7 @@ export default function App() {
               
               {/* Hero Banner */}
               <div className="text-center pt-4 sm:pt-8 pb-4 max-w-3xl mx-auto space-y-4">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-300 text-xs font-semibold tracking-wider uppercase backdrop-blur-md">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-300 text-xs font-semibold tracking-wider uppercase backdrop-blur-md shadow-lg shadow-sky-500/10">
                   <Sparkles className="w-3.5 h-3.5 text-sky-400" />
                   <span>Next-Gen Liquid-Glass Flight Booking</span>
                 </div>
