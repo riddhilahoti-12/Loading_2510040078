@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import MobileBottomNav from './components/MobileBottomNav';
 import SearchPanel from './components/SearchPanel';
 import FlightResults from './components/FlightResults';
 import ComparisonDrawer from './components/ComparisonDrawer';
@@ -109,7 +110,7 @@ export default function App() {
           savedBookingsCount={savedBookings.length}
         />
 
-        <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20">
+        <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-28 md:pb-20">
           
           {/* Progress Stepper Bar for Active Booking Flow */}
           {activeTab === 'search' && viewState !== 'search' && (
@@ -128,20 +129,20 @@ export default function App() {
             <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
               
               {/* Hero Banner */}
-              <div className="text-center pt-8 pb-4 max-w-3xl mx-auto space-y-4">
+              <div className="text-center pt-4 sm:pt-8 pb-4 max-w-3xl mx-auto space-y-4">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-300 text-xs font-semibold tracking-wider uppercase backdrop-blur-md">
                   <Sparkles className="w-3.5 h-3.5 text-sky-400" />
                   <span>Next-Gen Liquid-Glass Flight Booking</span>
                 </div>
 
-                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white font-['Inter_Tight'] leading-[1.08]">
+                <h1 className="text-3xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white font-['Inter_Tight'] leading-[1.08]">
                   Fly farther.{' '}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-cyan-200 to-blue-400">
                     Experience more.
                   </span>
                 </h1>
 
-                <p className="text-slate-300 text-base sm:text-xl font-light leading-relaxed max-w-2xl mx-auto">
+                <p className="text-slate-300 text-sm sm:text-xl font-light leading-relaxed max-w-2xl mx-auto px-2">
                   Search thousands of flights and find the journey that fits you with interactive seat selection, real-time comparison, and dynamic pricing.
                 </p>
               </div>
@@ -150,7 +151,7 @@ export default function App() {
               <SearchPanel onSearch={handleSearchSubmit} />
 
               {/* Highlights */}
-              <div className="pt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              <div className="pt-8 sm:pt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
                 <div className="p-6 rounded-2xl bg-slate-900/40 border border-white/10 backdrop-blur-md hover:border-sky-400/30 transition-all">
                   <ShieldCheck className="w-8 h-8 text-sky-400 mb-3" />
                   <h3 className="text-base font-semibold text-white mb-1">Transparent Pricing</h3>
@@ -264,6 +265,16 @@ export default function App() {
           comparedFlights={comparedFlights}
           onRemoveCompare={(id) => setComparedFlights(comparedFlights.filter(f => f.id !== id))}
           onSelectFlight={handleSelectFlight}
+        />
+
+        {/* Mobile Bottom Bar Navigation */}
+        <MobileBottomNav
+          activeTab={activeTab}
+          setActiveTab={(tab) => {
+            setActiveTab(tab);
+            if (tab === 'search') setViewState('search');
+          }}
+          savedBookingsCount={savedBookings.length}
         />
 
         <Footer />
