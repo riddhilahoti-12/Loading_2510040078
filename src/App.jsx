@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SearchPanel from './components/SearchPanel';
@@ -8,6 +8,8 @@ import ProgressStepper from './components/ProgressStepper';
 import SeatMap from './components/SeatMap';
 import PassengerForm from './components/PassengerForm';
 import BookingSummary from './components/BookingSummary';
+import ConfirmationScreen from './components/ConfirmationScreen';
+import MyTrips from './components/MyTrips';
 import { MOCK_FLIGHTS } from './data/mockFlights';
 import { Plane, Sparkles, ShieldCheck, Clock, Award } from 'lucide-react';
 
@@ -22,6 +24,18 @@ export default function App() {
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
   const [confirmedBookingData, setConfirmedBookingData] = useState(null);
   const [savedBookings, setSavedBookings] = useState([]);
+
+  // Load saved bookings from localStorage on mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('aerovaBookings');
+      if (stored) {
+        setSavedBookings(JSON.parse(stored));
+      }
+    } catch (e) {
+      console.log('Error reading aerovaBookings:', e);
+    }
+  }, []);
 
   const handleSearchSubmit = (params) => {
     setSearchParams(params);
@@ -56,9 +70,24 @@ export default function App() {
   };
 
   const handleConfirmBooking = (bookingData) => {
-    console.log('Booking confirmed:', bookingData);
-    setConfirmedBookingData(bookingData);
-    // Confirmation screen & localStorage will be hooked in Phase 09
+    const bookingRef = 'AVR' + Math.random().toString(36).substring(2, 6).toUpperCase();
+    const finalRecord = {
+      ...bookingData,
+      bookingRef,
+      bookingDate: new Date().toISOString()
+    };
+
+    setConfirmedBookingData(finalRecord);
+    setViewState('confirmation');
+
+    // Save into localStorage
+    const updatedBookings = [finalRecord, ...savedBookings];
+    setSavedBookings(updatedBookings);
+    try {
+      localStorage.setItem('aerovaBookings', JSON.stringify(updatedBookings));
+    } catch (e) {
+      console.log('Error saving to localStorage:', e);
+    }
   };
 
   const passengerCount = (searchParams?.passengers?.adults || 1) + (searchParams?.passengers?.children || 0);
@@ -196,8 +225,27 @@ export default function App() {
             />
           )}
 
+          {/* CONFIRMATION SCREEN VIEW */}
+          {activeTab === 'search' && viewState === 'confirmation' && confirmedBookingData && (
+            <ConfirmationScreen
+              bookingData={confirmedBookingData}
+              onGoHome={() => setViewState('search')}
+              onViewTrips={() => setActiveTab('trips')}
+            />
+          )}
+
+          {/* MY TRIPS TAB VIEW */}
+          {activeTab === 'trips' && (
+            <MyTrips
+              onSelectBookFlight={() => {
+                setActiveTab('search');
+                setViewState('search');
+              }}
+            />
+          )}
+
           {/* OTHER TABS */}
-          {activeTab !== 'search' && (
+          {activeTab !== 'search' && activeTab !== 'trips' && (
             <div className="py-20 text-center space-y-4">
               <Plane className="w-12 h-12 text-sky-400 mx-auto" />
               <h2 className="text-2xl font-bold text-white capitalize">{activeTab} View</h2>
