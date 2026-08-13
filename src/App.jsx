@@ -6,6 +6,7 @@ import FlightResults from './components/FlightResults';
 import ComparisonDrawer from './components/ComparisonDrawer';
 import ProgressStepper from './components/ProgressStepper';
 import SeatMap from './components/SeatMap';
+import PassengerForm from './components/PassengerForm';
 import { MOCK_FLIGHTS } from './data/mockFlights';
 import { Plane, Sparkles, ShieldCheck, Clock, Award } from 'lucide-react';
 
@@ -15,6 +16,7 @@ export default function App() {
   const [searchParams, setSearchParams] = useState(null);
   const [selectedFlight, setSelectedFlight] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [passengersDetails, setPassengersDetails] = useState([]);
   const [comparedFlights, setComparedFlights] = useState([]);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
   const [savedBookings, setSavedBookings] = useState([]);
@@ -42,8 +44,14 @@ export default function App() {
 
   const handleSelectFlight = (flight) => {
     setSelectedFlight(flight);
-    setSelectedSeats([]); // reset seat selection for new flight
+    setSelectedSeats([]);
     setViewState('seat');
+  };
+
+  const handlePassengerSubmit = (details) => {
+    setPassengersDetails(details);
+    console.log('Passengers saved:', details);
+    // Booking review will be connected in Phase 08
   };
 
   const passengerCount = (searchParams?.passengers?.adults || 1) + (searchParams?.passengers?.children || 0);
@@ -156,6 +164,16 @@ export default function App() {
               setSelectedSeats={setSelectedSeats}
               onBack={() => setViewState('results')}
               onContinue={() => setViewState('passenger')}
+            />
+          )}
+
+          {/* PASSENGER DETAILS FORM VIEW */}
+          {activeTab === 'search' && viewState === 'passenger' && selectedFlight && (
+            <PassengerForm
+              passengerCount={passengerCount}
+              initialData={passengersDetails}
+              onBack={() => setViewState('seat')}
+              onContinue={handlePassengerSubmit}
             />
           )}
 
