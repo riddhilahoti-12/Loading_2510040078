@@ -4,6 +4,8 @@ import Footer from './components/Footer';
 import SearchPanel from './components/SearchPanel';
 import FlightResults from './components/FlightResults';
 import ComparisonDrawer from './components/ComparisonDrawer';
+import ProgressStepper from './components/ProgressStepper';
+import SeatMap from './components/SeatMap';
 import { MOCK_FLIGHTS } from './data/mockFlights';
 import { Plane, Sparkles, ShieldCheck, Clock, Award } from 'lucide-react';
 
@@ -12,6 +14,7 @@ export default function App() {
   const [viewState, setViewState] = useState('search'); // 'search' | 'results' | 'seat' | 'passenger' | 'review' | 'confirmation'
   const [searchParams, setSearchParams] = useState(null);
   const [selectedFlight, setSelectedFlight] = useState(null);
+  const [selectedSeats, setSelectedSeats] = useState([]);
   const [comparedFlights, setComparedFlights] = useState([]);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
   const [savedBookings, setSavedBookings] = useState([]);
@@ -39,9 +42,11 @@ export default function App() {
 
   const handleSelectFlight = (flight) => {
     setSelectedFlight(flight);
-    console.log('Flight selected:', flight);
-    // Seat map selection will be connected in Phase 06
+    setSelectedSeats([]); // reset seat selection for new flight
+    setViewState('seat');
   };
+
+  const passengerCount = (searchParams?.passengers?.adults || 1) + (searchParams?.passengers?.children || 0);
 
   return (
     <div className="min-h-screen flex flex-col justify-between text-slate-100 bg-[#040811] relative selection:bg-sky-500 selection:text-white">
@@ -62,6 +67,18 @@ export default function App() {
 
         <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20">
           
+          {/* Progress Stepper Bar for Active Booking Flow */}
+          {activeTab === 'search' && viewState !== 'search' && (
+            <ProgressStepper
+              currentStep={
+                viewState === 'results' ? 2 :
+                viewState === 'seat' ? 3 :
+                viewState === 'passenger' ? 4 :
+                viewState === 'review' ? 5 : 6
+              }
+            />
+          )}
+
           {/* SEARCH LANDING VIEW */}
           {activeTab === 'search' && viewState === 'search' && (
             <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -127,6 +144,18 @@ export default function App() {
               comparedFlights={comparedFlights}
               onToggleCompare={handleToggleCompare}
               onOpenComparison={() => setIsComparisonOpen(true)}
+            />
+          )}
+
+          {/* SEAT MAP SELECTION VIEW */}
+          {activeTab === 'search' && viewState === 'seat' && selectedFlight && (
+            <SeatMap
+              flight={selectedFlight}
+              passengerCount={passengerCount}
+              selectedSeats={selectedSeats}
+              setSelectedSeats={setSelectedSeats}
+              onBack={() => setViewState('results')}
+              onContinue={() => setViewState('passenger')}
             />
           )}
 
