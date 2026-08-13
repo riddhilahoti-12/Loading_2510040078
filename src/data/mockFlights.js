@@ -20,7 +20,8 @@ export const MOCK_FLIGHTS = [
     baggage: '30 kg Check-in + 7 kg Cabin',
     refundable: true,
     seatsAvailable: 14,
-    tags: ['Cheapest', 'Non-stop']
+    tags: ['Cheapest', 'Non-stop'],
+    image: 'https://images.pexels.com/photos/162031/dubai-tower-arab-khalifa-162031.jpeg?auto=compress&cs=tinysrgb&w=800'
   },
   {
     id: 'FL-102',
@@ -43,7 +44,8 @@ export const MOCK_FLIGHTS = [
     baggage: '25 kg Check-in + 7 kg Cabin',
     refundable: true,
     seatsAvailable: 8,
-    tags: ['Evening Flight']
+    tags: ['Evening Flight'],
+    image: 'https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=800'
   },
   {
     id: 'FL-103',
@@ -66,7 +68,8 @@ export const MOCK_FLIGHTS = [
     baggage: '20 kg Check-in + 7 kg Cabin',
     refundable: false,
     seatsAvailable: 22,
-    tags: ['Cheapest']
+    tags: ['Cheapest'],
+    image: 'https://images.pexels.com/photos/2506923/pexels-photo-2506923.jpeg?auto=compress&cs=tinysrgb&w=800'
   },
   {
     id: 'FL-104',
@@ -89,7 +92,8 @@ export const MOCK_FLIGHTS = [
     baggage: '35 kg Check-in + 10 kg Cabin',
     refundable: true,
     seatsAvailable: 5,
-    tags: ['Premium Comfort']
+    tags: ['Premium Comfort'],
+    image: 'https://images.pexels.com/photos/777059/pexels-photo-777059.jpeg?auto=compress&cs=tinysrgb&w=800'
   },
   {
     id: 'FL-105',
@@ -112,7 +116,8 @@ export const MOCK_FLIGHTS = [
     baggage: '30 kg Check-in + 7 kg Cabin',
     refundable: true,
     seatsAvailable: 11,
-    tags: ['Spacious Legroom']
+    tags: ['Spacious Legroom'],
+    image: 'https://images.pexels.com/photos/290386/pexels-photo-290386.jpeg?auto=compress&cs=tinysrgb&w=800'
   },
   {
     id: 'FL-106',
@@ -135,52 +140,7 @@ export const MOCK_FLIGHTS = [
     baggage: '20 kg Check-in + 7 kg Cabin',
     refundable: false,
     seatsAvailable: 19,
-    tags: ['Afternoon Departure']
-  },
-  {
-    id: 'FL-107',
-    airline: 'Gulf Air',
-    airlineLogo: '🦅',
-    flightNumber: 'GF 274',
-    origin: 'HYD',
-    originCity: 'Hyderabad',
-    destination: 'DXB',
-    destinationCity: 'Dubai',
-    departureTime: '06:00',
-    arrivalTime: '11:45',
-    duration: '7h 15m',
-    stops: 1,
-    stopDetails: '1h 45m layover in Bahrain (BAH)',
-    price: 20400,
-    currency: '₹',
-    cabin: 'Economy',
-    aircraft: 'Boeing 787 Dreamliner',
-    baggage: '30 kg Check-in + 7 kg Cabin',
-    refundable: true,
-    seatsAvailable: 9,
-    tags: ['Fastest 1-Stop']
-  },
-  {
-    id: 'FL-108',
-    airline: 'Oman Air',
-    airlineLogo: '🇴🇲',
-    flightNumber: 'WY 232',
-    origin: 'HYD',
-    originCity: 'Hyderabad',
-    destination: 'DXB',
-    destinationCity: 'Dubai',
-    departureTime: '15:45',
-    arrivalTime: '21:30',
-    duration: '7h 15m',
-    stops: 1,
-    stopDetails: '1h 30m layover in Muscat (MCT)',
-    price: 21800,
-    currency: '₹',
-    cabin: 'Economy',
-    aircraft: 'Boeing 737 MAX 9',
-    baggage: '30 kg Check-in + 7 kg Cabin',
-    refundable: true,
-    seatsAvailable: 15,
-    tags: ['Smooth Layover']
+    tags: ['Afternoon Departure'],
+    image: 'https://images.pexels.com/photos/532826/pexels-photo-532826.jpeg?auto=compress&cs=tinysrgb&w=800'
   }
 ];
